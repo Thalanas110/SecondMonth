@@ -984,15 +984,6 @@
                 }
             });
 
-            // parallax effect
-            window.addEventListener('scroll', () => {
-                const scrolled = window.pageYOffset;
-                const parallax = document.body;
-                const speed = 0.5;
-                
-                parallax.style.transform = `translateY(${scrolled * speed}px)`;
-            });
-        }
 
         function observeScrollElements() {
             const observer = new IntersectionObserver((entries) => {
