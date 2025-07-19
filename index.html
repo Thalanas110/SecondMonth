@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2nd monthsaryy (^^)</title>
+    <style>
+        :root {
+            --primary-color: #8b5fbf;
+            --secondary-color: #6a4c93;
+            --accent-color: #9d84b7;
+            --text-light: #ffffff;
+            --text-dark: #2d1b69;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            --gradient: linear-gradient(135deg, rgba(139, 95, 191, 0.8) 0%, rgba(106, 76, 147, 0.6) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-light);
+            background: url('bgwall.jpg') center/cover fixed;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* anime image */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(139, 95, 191, 0.4) 0%, rgba(106, 76, 147, 0.3) 50%, rgba(157, 132, 183, 0.4) 100%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #fff, #f8f9ff, #e8e9ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(31, 38, 135, 0.5);
+        }
+
+        .poem-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .poem-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 1px solid var(--glass-border);
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .poem-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .poem-card:hover::before {
+            left: 100%;
+        }
+
+        .poem-card:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(139, 95, 191, 0.3);
+            border-color: var(--accent-color);
+        }
+
+        .poem-card.active {
+            background: rgba(139, 95, 191, 0.3);
+            border-color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+
+        .poem-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .poem-preview {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            font-style: italic;
+            line-height: 1.4;
+        }
+
+        .poem-display {
+            display: none;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .poem-display.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .poem-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .poem-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .poem-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, #fff, #f8f9ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .poem-meta {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .stanza {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border-left: 3px solid var(--accent-color);
+            transition: all 0.3s ease;
+        }
+
+        .stanza:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateX(5px);
+        }
+
+        .stanza-line {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 0.5rem;
+            opacity: 0;
+            animation: fadeInLine 0.8s ease forwards;
+        }
+
+        .stanza-line:nth-child(1) { animation-delay: 0.1s; }
+        .stanza-line:nth-child(2) { animation-delay: 0.2s; }
+        .stanza-line:nth-child(3) { animation-delay: 0.3s; }
+        .stanza-line:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes fadeInLine {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding: 1rem;
+            background: var(--glass-bg);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-btn {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 95, 191, 0.4);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--glass-border);
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .poem-counter {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        /* responsivitism */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .logo {
+                font-size: 2.5rem;
+            }
+
+            .glass-card {
+                padding: 1.5rem;
+            }
+
+            .poem-selector {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .poem-header h2 {
+                font-size: 2rem;
+            }
+
+            .navigation {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .glass-card {
+                padding: 1rem;
+            }
+
+            .stanza {
+                padding: 1rem;
+            }
+
+            .stanza-line {
+                font-size: 1rem;
+            }
+        }
+
+        /* Loading animation */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="logo">Eternal Verses</h1>
+            <p class="subtitle">A Collection of Love Poems for the Heart</p>
+        </header>
+
+        <div id="home-view">
+            <div class="glass-card">
+                <h3 style="text-align: center; margin-bottom: 2rem; font-size: 1.5rem;">Select a Poem to Begin Your Journey</h3>
+                <div class="poem-selector" id="poem-selector">
+                    <!-- Poem cards will be dynamically generated here -->
+                </div>
+            </div>
+        </div>
+
+        <div id="poem-view" class="poem-display">
+            <div class="glass-card">
+                <div class="poem-content">
+                    <div class="poem-header">
+                        <h2 id="poem-title"></h2>
+                        <p class="poem-meta" id="poem-meta"></p>
+                    </div>
+                    <div id="poem-text"></div>
+                </div>
+                <div class="navigation">
+                    <button class="nav-btn back-btn" id="back-btn">
+                        ← Back to Collection
+                    </button>
+                    <span class="poem-counter" id="poem-counter"></span>
+                    <div>
+                        <button class="nav-btn" id="prev-btn">← Previous</button>
+                        <button class="nav-btn" id="next-btn">Next →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Love poems data with 20-25 stanzas each
+        const poems = [
+            {
+                title: "Whispers of Eternity",
+                preview: "In the silence of the night, your love speaks to my soul...",
+                meta: "A poem about eternal love and connection",
+                stanzas: [
+                    ["In the silence of the night, your love speaks to my soul,", "Like whispers of eternity, making broken hearts whole.", "Your eyes hold starlight, your smile holds grace,", "In your gentle presence, I've found my place."],
+                    ["Through seasons that change and years that pass,", "Our love remains constant, like shadows on grass.", "You are my sunrise, my hope, my dream,", "The most beautiful part of life's grand scheme."],
+                    ["When storms of doubt cloud my weary mind,", "Your love is the shelter that I always find.", "In your arms I discover what peace truly means,", "A sanctuary of love beyond all dreams."],
+                    ["Every heartbeat echoes your sacred name,", "Every breath I take fans love's eternal flame.", "You are the poetry that flows from my pen,", "My heart's sweetest song, again and again."],
+                    ["In gardens of memory where our love grows,", "Each moment with you like a perfect rose.", "Time stands still when you're by my side,", "In love's gentle current, we peacefully glide."],
+                    ["Your laughter is music, your touch is prayer,", "In the tapestry of love, you're beyond compare.", "Through morning light and evening's glow,", "My love for you continues to grow."],
+                    ["In the quiet moments before dawn breaks,", "I cherish the love that our hearts makes.", "You are my compass, my guiding star,", "No matter the distance, you're never far."],
+                    ["When words seem empty and actions fall short,", "Love finds a way to bridge every port.", "In the language of hearts that beat as one,", "Our love story has only just begun."],
+                    ["Through valleys of shadow and mountains high,", "Together we'll journey, you and I.", "Hand in hand through whatever may come,", "In love's symphony, we beat as one drum."],
+                    ["Your love is the canvas on which I paint,", "A masterpiece of joy without constraint.", "Each color more vivid, each stroke more true,", "When I'm creating this life with you."],
+                    ["In the mirror of your loving eyes,", "I see reflected paradise.", "Not the kind that poets merely dream,", "But the real love that makes everything gleam."],
+                    ["When winter winds blow cold and stark,", "Your love lights candles in the dark.", "Warming chambers of my heart with care,", "Reminding me that you'll always be there."],
+                    ["Like rivers that flow toward the sea,", "My love flows endlessly toward thee.", "Nothing can stop this sacred tide,", "That carries me to your loving side."],
+                    ["In the story of us that time writes,", "Each chapter filled with pure delights.", "The plot may twist, the scenes may change,", "But our love remains, never strange."],
+                    ["You are the answer to prayers I've prayed,", "The light that shines when hope might fade.", "In your love, I find my strength,", "I'd go to any height, any length."],
+                    ["Through morning mist and evening dew,", "Every moment leads me back to you.", "In the web of fate that life has spun,", "You and I are forever one."],
+                    ["Your voice is the song my soul knows best,", "In your love, I find my rest.", "No treasure on earth could compare,", "To the love that we so perfectly share."],
+                    ["In the garden of time where memories bloom,", "You chase away every trace of gloom.", "Like flowers that dance in summer's breeze,", "Your love brings my worried heart such ease."],
+                    ["When the final sunset paints the sky,", "And we must whisper our last goodbye,", "Know that love like ours never dies,", "It lives on in eternal ties."],
+                    ["So here's my promise, my sacred vow,", "To love you always, starting now.", "Through every season, every weather,", "My heart belongs to you forever."],
+                    ["In the whispers of eternity's song,", "Our love will echo, forever strong.", "Beyond time, beyond space, beyond measure,", "You are my heart's greatest treasure."]
+                ]
+            },
+            {
+                title: "Dance of Two Hearts",
+                preview: "In the ballroom of dreams where music plays...",
+                meta: "A lyrical poem about love as a beautiful dance",
+                stanzas: [
+                    ["In the ballroom of dreams where music plays,", "Two hearts begin their dance of days.", "Step by step in perfect time,", "Your love and mine in rhythm rhyme."],
+                    ["The melody flows like silk through air,", "As I twirl you without a care.", "In this dance of love we've found,", "Our souls make the sweetest sound."],
+                    ["Your hand in mine, so warm and true,", "Guides me through each step we do.", "No choreographer could design,", "A dance as perfect as yours and mine."],
+                    ["Across the floor of life we glide,", "With love as our unwavering guide.", "Through waltzes slow and tangos fast,", "This dance of love will always last."],
+                    ["When the music seems to fade away,", "Your love helps me find the way.", "We create our own sweet song,", "To dance to all our whole lives long."],
+                    ["In the spotlight of your gaze,", "I lose myself in love's embrace.", "Every movement tells a story,", "Of our love in all its glory."],
+                    ["Sometimes we stumble, sometimes we fall,", "But love lifts us through it all.", "Back to our feet we rise again,", "To dance through joy and dance through pain."],
+                    ["The orchestra of our beating hearts,", "Plays the music as each day starts.", "In major keys and minor too,", "Every note leads me to you."],
+                    ["Through seasons of this lifelong dance,", "We grow deeper in romance.", "Each year adds steps to our routine,", "The most beautiful I've ever seen."],
+                    ["Your eyes are stars that light the stage,", "Growing brighter with each age.", "In their depths I see our future,", "Dancing on through love's great suture."],
+                    ["When fast songs play, we spin around,", "Our laughter makes a joyful sound.", "When slow songs call, we hold tight,", "Swaying gently through the night."],
+                    ["The dance floor of our love expands,", "As we travel to distant lands.", "Everywhere we go together,", "We dance through any kind of weather."],
+                    ["In the morning's gentle light,", "We dance away the lonely night.", "Kitchen floors become our stage,", "Love's sweet dance on every page."],
+                    ["Through crowded rooms and quiet spaces,", "We dance on in love's embraces.", "The world may watch but cannot see,", "The sacred dance 'tween you and me."],
+                    ["Your love leads me through every turn,", "With each step there's more to learn.", "About the grace found in surrender,", "To a love so sweet and tender."],
+                    ["In the mirror ball's reflection,", "I see our love's perfection.", "Fragments of light dance around,", "As our hearts beat with love's sound."],
+                    ["The band may tire, the night grow late,", "But we dance on, tempting fate.", "For dancers such as we have found,", "True love makes the sweetest sound."],
+                    ["When others leave the ballroom floor,", "We dance a little bit more.", "In the silence we can hear,", "Our love song, crystal clear."],
+                    ["Through dips and lifts, through spins and turns,", "My heart with passion always burns.", "For this dance will never end,", "My lover, partner, dearest friend."],
+                    ["As years add silver to our hair,", "We'll still be dancing, still a pair.", "Our steps may slow, but never cease,", "Dancing together in love's sweet peace."],
+                    ["In the ballroom of eternity,", "Where love dances endlessly,", "Hand in hand we'll take the floor,", "To dance forevermore."],
+                    ["So when you hear our favorite song,", "Remember how we danced along.", "Through life's great ballroom, you and I,", "Dancing until the day we die."],
+                    ["And even then, our souls will dance,", "In heaven's perfect, sweet romance.", "The dance of two hearts beating true,", "Forever me, forever you."]
+                ]
+            },
+            {
+                title: "Moonlit Promises",
+                preview: "Under the silver moon's gentle glow...",
+                meta: "A romantic poem about promises made under moonlight",
+                stanzas: [
+                    ["Under the silver moon's gentle glow,", "I make these promises, soft and low.", "By starlight witnessed, by night blessed,", "My love for you will never rest."],
+                    ["The moon hangs like a diamond bright,", "Illuminating our love's delight.", "In its silvery, sacred beam,", "I promise you're my only dream."],
+                    ["Beneath this canopy of stars,", "I pledge my heart, no room for bars.", "These promises, like moonbeams true,", "Bind my soul forever to you."],
+                    ["The gentle night wind hears my vow,", "To love you then, to love you now.", "Through phases of the moon's bright face,", "My love for you time can't erase."],
+                    ["I promise in the morning light,", "To hold you close through day and night.", "When dawn breaks through the darkness deep,", "These moonlit vows I'll always keep."],
+                    ["By lunar grace and heaven's dome,", "I promise you'll never walk alone.", "Through new moon's dark and full moon's bright,", "I'll be your love, your guiding light."],
+                    ["The moon that shines on lovers' lanes,", "Witnesses love through joys and pains.", "I promise through both storm and calm,", "To hold you safe within my arms."],
+                    ["In moonbeams dancing on the sea,", "I see our love's eternity.", "Like tides that rise and never cease,", "My love brings you eternal peace."],
+                    ["The craters on the moon above,", "Hold secrets of our sacred love.", "Each shadow tells a story true,", "Of promises I make to you."],
+                    ["When moonlight paints the world in blue,", "I'm painting dreams of me and you.", "A future bright as lunar light,", "Forever bathed in love's delight."],
+                    ["The moon in phases comes and goes,", "But steady as the river flows,", "My love remains unchanged, complete,", "Making every moment sweet."],
+                    ["I promise by the moon's bright glow,", "To love you more than you can know.", "Through crescents thin and circles full,", "My heart toward yours will always pull."],
+                    ["The night-blooming jasmine knows our names,", "As moonlight fans romantic flames.", "In gardens kissed by silver light,", "We'll walk together through the night."],
+                    ["The owl calls out across the dale,", "Blessing our romantic tale.", "Under stars and moon so bright,", "Everything feels just right."],
+                    ["I promise you adventures sweet,", "Where earth and heaven's glories meet.", "In moonlit groves and starlit glades,", "Where true love never fades."],
+                    ["The poet's moon that lovers share,", "Shines down upon this perfect pair.", "In its light I clearly see,", "How blessed our love will always be."],
+                    ["Through lunar cycles, month by month,", "My love grows stronger, by a bunch.", "Each phase reveals another part,", "Of what lives within my heart."],
+                    ["The harvest moon of autumn gold,", "Sees promises that won't grow old.", "Like vintage wine that ages well,", "Our love story time will tell."],
+                    ["In winter's moon so crisp and clear,", "I promise you I'll always be near.", "Through seasons changing, years that pass,", "Our moonlit love will ever last."],
+                    ["The spring moon rises, hope renewed,", "With promises of love pursued.", "In every bloom and budding tree,", "I see our love's sweet destiny."],
+                    ["Summer's moon hangs warm and low,", "Blessing everything below.", "In its gentle, golden light,", "Our promises shine bright."],
+                    ["So here beneath this moon tonight,", "I pledge my love with all my might.", "These promises, like silver streams,", "Will flow through all our sweetest dreams."],
+                    ["And when our earthly days are done,", "Our moonlit promises live on.", "In the eternal lunar glow,", "Our love will forever grow."],
+                    ["Remember always, my sweet dove,", "These moonlit promises of love.", "By silver light and starry dome,", "With you, I'm always home."]
+                ]
+            },
+            {
+                title: "Garden of Dreams",
+                preview: "In the garden of my dreams, you bloom...",
+                meta: "A metaphorical poem comparing love to a beautiful garden",
+                stanzas: [
+                    ["In the garden of my dreams, you bloom,", "Chasing away all hint of gloom.", "Like roses red and violets blue,", "My heart grows beautiful with you."],
+                    ["You planted seeds of love so deep,", "In soil that's mine forever to keep.", "With gentle rain and sunshine bright,", "Our love garden grows day and night."],
+                    ["The morning glories climb so high,", "Like my love reaching for the sky.", "Each petal soft, each stem so strong,", "In this garden we belong."],
+                    ["Among the lilies pure and white,", "You shine with love's celestial light.", "The jasmine blooms with sweet perfume,", "Filling every heart's dark room."],
+                    ["The daffodils dance in spring breeze,", "Like laughter floating through the trees.", "Your joy becomes the garden's song,", "Here where our hearts belong."],
+                    ["Beneath the cherry blossoms fair,", "I run my fingers through your hair.", "Pink petals fall like gentle rain,", "Washing away all hint of pain."],
+                    ["The sunflowers turn to follow light,", "As I turn to you each morning bright.", "In your warmth I find my way,", "Through every blessed day."],
+                    ["The lavender soothes with purple hue,", "Like the calming peace I find in you.", "When troubles make my spirit sore,", "Your love heals me to the core."],
+                    ["The climbing vines of sweet peas grow,", "Teaching us what lovers know.", "That reaching higher, holding tight,", "Makes everything turn out right."],
+                    ["In hidden corners of this space,", "I find reflections of your face.", "In every bloom and every tree,", "I see how blessed we came to be."],
+                    ["The butterfly dances bloom to bloom,", "Like happiness dispelling gloom.", "Your love gives wings to my earthbound heart,", "A most beautiful work of art."],
+                    ["The garden path winds here and there,", "Like the journey that we share.", "Through shaded glen and sunny hill,", "Together we climb still."],
+                    ["The fountain bubbles crystal clear,", "Like the joy when you are near.", "Its music mingles with the breeze,", "Putting worried hearts at ease."],
+                    ["The apple tree bears fruit so sweet,", "Making our love life complete.", "Each season brings its own delight,", "From dawn through peaceful night."],
+                    ["The herb garden speaks of days to come,", "When we'll taste life's flavorsome.", "Basil, thyme, and rosemary too,", "Season every day with you."],
+                    ["When storms threaten our tender shoots,", "We shelter them down to the roots.", "For gardens teach us how to grow,", "Through whatever winds may blow."],
+                    ["The greenhouse holds our dreams secure,", "Where love can always grow so pure.", "Protected from the cold outside,", "Here our hearts can safely hide."],
+                    ["In autumn when the leaves turn gold,", "Our love story continues told.", "In russet, amber, crimson bright,", "Painting love in heaven's light."],
+                    ["The evergreens stand strong and true,", "Like the promises I make to you.", "Through winter's cold and summer's heat,", "Making every season sweet."],
+                    ["The garden bench where we sit near,", "Holds memories we both hold dear.", "Of whispered dreams and plans we've made,", "In love's eternal, sweet parade."],
+                    ["The garden gate stands open wide,", "Welcoming love to come inside.", "But once you're in this sacred space,", "You'll never want to leave this place."],
+                    ["As seasons change from year to year,", "This garden grows more sweet, more dear.", "Tended by our loving hands,", "It flourishes across all lands."],
+                    ["In the garden of my dreams you bloom,", "Forever chasing away all gloom.", "Here where love grows wild and free,", "You'll always be the heart of me."],
+                    ["So take my hand and walk with me,", "Through this garden by the sea.", "In the realm where dreams come true,", "I've planted everything for you."]
+                ]
+            },
+            {
+                title: "Stars in Your Eyes",
+                preview: "I see galaxies spinning in your eyes...",
+                meta: "A cosmic love poem about finding the universe in someone's eyes",
+                stanzas: [
+                    ["I see galaxies spinning in your eyes,", "Nebulae of love beneath starlit skies.", "In the depths of your gentle gaze,", "I'm lost in wonder, lost in praise."],
+                    ["Your eyes hold constellations bright,", "Guiding me through the darkest night.", "Like ancient sailors found their way,", "Your eyes lead me home each day."],
+                    ["The Big Dipper of your smile,", "Makes every moment worth the while.", "Orion's belt around your waist,", "Holds me in love's sweet, warm embrace."],
+                    ["In your pupils, black holes deep,", "All my secrets they do keep.", "Drawing me into their embrace,", "Time slows down in this sacred space."],
+                    ["The Milky Way streams through your hair,", "Stardust floating everywhere.", "When moonbeams catch each golden strand,", "I understand heaven's plan."],
+                    ["Your laughter sounds like solar wind,", "With cosmic music it's been twinned.", "The harmony of spheres above,", "Pales beside your sounds of love."],
+                    ["In your eyes I see the birth,", "Of new worlds beyond the Earth.", "Supernovas blazing bright,", "Fill my darkness with their light."],
+                    ["The Northern Lights dance green and gold,", "Like the stories that unfold,", "When I look into your face,", "I find my home, I find my place."],
+                    ["Saturn's rings spin 'round your head,", "Like halos that the angels spread.", "You're celestial, divine,", "And miraculously, you're mine."],
+                    ["The comet of your gentle touch,", "Means to me so very much.", "Trailing stardust in its wake,", "Setting all my nerves awake."],
+                    ["Mars glows red with passion's fire,", "Like the burning of desire,", "That fills my heart when you're nearby,", "Beneath love's astronomical sky."],
+                    ["Venus rises in the dawn,", "Like the moment you came along.", "Goddess of the morning light,", "Making everything just right."],
+                    ["Jupiter's storm has raged for years,", "But calms when your sweet voice appears.", "The Great Red Spot fades away,", "In the brightness of your day."],
+                    ["The asteroid belt of memory,", "Holds fragments of our history.", "Each piece a moment that we've shared,", "Proof of how much we have cared."],
+                    ["The moon pulls tides across the sea,", "Like you pull love from inside me.", "Your gravitational embrace,", "Keeps my heart in its right place."],
+                    ["The sun that rises every day,", "Can't match your warming ray.", "Solar flares of your sweet kiss,", "Fill my life with perfect bliss."],
+                    ["In the vast expanse of space,", "Among billions, your dear face,", "Shines the brightest, burns the truest,", "Makes this universe the bluest."],
+                    ["Light years couldn't measure far,", "The distance to the nearest star,", "Compared to depths of love I hold,", "For you, more precious than all gold."],
+                    ["The telescope of my devotion,", "Spans across love's endless ocean.", "Focused always on your light,", "My guiding star both day and night."],
+                    ["Binary stars that dance together,", "Through cosmic storms and stellar weather,", "Remind me of our loving dance,", "Through time and space's grand romance."],
+                    ["The space station of my heart,", "Has room where you can never part.", "Orbiting around your love,", "Like satellites of God above."],
+                    ["When shooting stars streak through the night,", "I wish upon their fleeting light,", "For one more day, one more year,", "To hold you, darling, always near."],
+                    ["In the infinite expanse above,", "I found the universe of love.", "Not in distant, cold space,", "But in your warm and sweet embrace."],
+                    ["So when you ask me to explain,", "This love that flows through every vein,", "I'll point up to the starry skies,", "And say, \"It lives within your eyes.\""]
+                ]
+            },
+            {
+                title: "Symphony of Love",
+                preview: "Your love is music to my soul...",
+                meta: "A musical metaphor for the harmonies of love",
+                stanzas: [
+                    ["Your love is music to my soul,", "A symphony that makes me whole.", "In major keys and minor chords,", "You speak without the need for words."],
+                    ["The violin of your sweet voice,", "Makes my heart rejoice.", "Each note you sing, each word you say,", "Brightens up my every day."],
+                    ["The piano of your gentle touch,", "Means to me so very much.", "Black and white keys intertwined,", "Like our hearts and souls combined."],
+                    ["The cello's deep and rich refrain,", "Soothes away my every pain.", "In its resonance I hear,", "All the love you hold so dear."],
+                    ["The flute's light melody so clear,", "Is like your laughter in my ear.", "Dancing notes on morning air,", "Remind me that you truly care."],
+                    ["The trumpet's bold and brassy sound,", "Is how my heart beats when you're around.", "Announcing love with royal flair,", "A fanfare for the love we share."],
+                    ["The drums keep time for our romance,", "Setting rhythm for love's dance.", "Steady beat through thick and thin,", "Where your heart ends, mine begins."],
+                    ["The guitar strums a lover's song,", "We've been humming all along.", "Six strings like the ways I love,", "You, my gift from God above."],
+                    ["The harp plays angels' sweet refrain,", "Washing away all trace of pain.", "Golden strings and heaven's touch,", "You mean to me so very much."],
+                    ["The saxophone's sultry, smooth tone,", "Makes me never feel alone.", "Jazz and blues flow through the night,", "Everything's going to be alright."],
+                    ["The orchestra of all my days,", "Plays your love in countless ways.", "From sunrise to the evening's end,", "You are my music, dearest friend."],
+                    ["In the concert hall of dreams,", "Nothing's quite the way it seems.", "But your love's sweet harmony,", "Creates perfect symphony."],
+                    ["The conductor of my beating heart,", "Has given you the leading part.", "With your baton raised up high,", "Our love song reaches to the sky."],
+                    ["Sometimes we play a lullaby,", "Gentle, soft, and tender-sigh.", "Other times a marching song,", "Bold and confident and strong."],
+                    ["The opera of our romance,", "Tells of love's sweet circumstance.", "Arias of joy and passion,", "Sung in love's eternal fashion."],
+                    ["The chamber music of quiet nights,", "When we hold each other tight,", "Intimate and soft and low,", "Only for us two to know."],
+                    ["The crescendo builds so high,", "When I look into your eyes.", "The fortissimo of your kiss,", "Fills my world with perfect bliss."],
+                    ["Sometimes we play pianissimo,", "Soft and sweet and gentle-so.", "Whispered vows and tender sighs,", "Beneath the starlit, moonlit skies."],
+                    ["The bridge connects one song to next,", "Like the love notes that we've text.", "Modulating key and time,", "Making every moment rhyme."],
+                    ["The encore of each perfect day,", "Is when I hear you softly say,", "Those three words that mean so much,", "Accompanied by your gentle touch."],
+                    ["In the recording of my memory,", "Every note played tenderly,", "Will echo through the years ahead,", "Long after words are left unsaid."],
+                    ["The symphony of love we've made,", "Will never fade.", "Movement after movement true,", "I'll keep composing songs for you."],
+                    ["So when the final note is played,", "And earthly music starts to fade,", "In heaven's choir we'll harmonize,", "Forever, beneath celestial skies."],
+                    ["Your love will always be the song,", "That I've been humming all along.", "The symphony that makes me whole,", "Music to my very soul."]
+                ]
+            },
+            {
+                title: "Ocean of Devotion",
+                preview: "Like waves upon the endless shore...",
+                meta: "A flowing poem about love as deep as the ocean",
+                stanzas: [
+                    ["Like waves upon the endless shore,", "My love comes back to you once more.", "Each tide brings treasures from the deep,", "Promises that I will keep."],
+                    ["In depths where sunlight cannot reach,", "Your love is all I need to teach,", "My heart to beat, my soul to soar,", "Above the waves forevermore."],
+                    ["The ocean's blue extends so far,", "Like love that reaches every star.", "No beginning and no end,", "On you my heart will always depend."],
+                    ["The lighthouse of your gentle smile,", "Guides ships across each stormy mile.", "When fog rolls in and skies turn gray,", "Your love lights up the way."],
+                    ["The seashells scattered on the sand,", "Are like the memories in my hand.", "Each one unique and beautiful,", "Our love story wonderful."],
+                    ["The dolphins dance in morning light,", "Like joy that makes everything right.", "Playing in the surf so free,", "Reminds me how you've set me free."],
+                    ["The coral reef beneath the waves,", "Is like the foundation love creates.", "Building slowly, year by year,", "A home where love can persevere."],
+                    ["The pearl that forms inside the shell,", "Has stories only time can tell.", "Pressure turns the grain to gold,", "Like our love story unfolds."],
+                    ["The sailboat on the horizon's edge,", "Reminds me of the sacred pledge,", "To navigate through calm and storm,", "Together, safe from any harm."],
+                    ["The sunrise over ocean wide,", "Paints the sky in golden pride.", "Each dawn brings hope anew,", "Another day to love you."],
+                    ["The seagulls cry above the foam,", "Welcome travelers back home.", "Like you welcome me each day,", "With love in every way."],
+                    ["The anchor holds the ship in place,", "Like your love's sweet embrace.", "Keeping me secure and true,", "Forever anchored here with you."],
+                    ["The captain's wheel turns left and right,", "Steering love through day and night.", "But with you as my guiding star,", "I'll never drift too far."],
+                    ["The mermaid's song across the bay,", "Sings of love that lasts for aye.", "Mythical but somehow true,", "Like the magic found in you."],
+                    ["The treasure buried in the sand,", "Can't compare to your sweet hand.", "All the gold and silver bright,", "Dims beside your loving light."],
+                    ["The message in the bottle cast,", "Says \"I love you first and last.\"", "Floating on the rolling sea,", "Carrying my love to thee."],
+                    ["The storm that rages wild and free,", "Cannot part you from me.", "For love like ours runs deeper still,", "Than any tempest's will."],
+                    ["The calm after the storm has passed,", "Shows that true love's built to last.", "In peaceful waters, clear and blue,", "I sail my heart to you."],
+                    ["The starfish on the rocky shore,", "Wishes it could love you more.", "But five arms cannot compete,", "With this heart's loving beat."],
+                    ["The whale song in the ocean deep,", "Sings the promises I keep.", "Across the miles it travels far,", "Like love that knows no bar."],
+                    ["The tide pool holds a world complete,", "Like our love so pure and sweet.", "In this small and perfect space,", "I see your lovely face."],
+                    ["The ocean's rhythm, back and forth,", "Measures love's enduring worth.", "Eternal as the ebb and flow,", "My love continues to grow."],
+                    ["When sunset paints the water gold,", "Our love story gets retold.", "In the language of the waves,", "That every heart truly craves."],
+                    ["So here beside the endless sea,", "I pledge my love eternally.", "Like oceans deep and oceans wide,", "Forever by your side."]
+                ]
+            },
+            {
+                title: "Fire of Passion",
+                preview: "In the hearth of my heart burns a flame...",
+                meta: "An intense poem about the burning passion of true love",
+                stanzas: [
+                    ["In the hearth of my heart burns a flame,", "That whispers your beautiful name.", "Crackling warm through the coldest night,", "You are my fire, my guiding light."],
+                    ["The spark that started our love's fire,", "Burns ever higher with desire.", "From tiny ember to blazing bright,", "You set my soul alight."],
+                    ["Like phoenix rising from the ash,", "Our love survives each lightning flash.", "Reborn stronger than before,", "Always yearning for much more."],
+                    ["The candle flame that never dies,", "Reflects the fire in your eyes.", "Steady, warm, and burning true,", "All my passion flows to you."],
+                    ["In the fireplace of winter nights,", "Your love warms me to great heights.", "Orange flames dance shadows on the wall,", "But you outshine them all."],
+                    ["The campfire under starry skies,", "Cannot match your loving eyes.", "Gathered 'round its golden glow,", "Our love continues to grow."],
+                    ["The torch you carry lights the way,", "Through darkness into brightest day.", "Olympic flame of love so pure,", "Forever more to endure."],
+                    ["The wildfire spreads across the land,", "Like love we cannot understand.", "Consuming all in passion's path,", "After love's sweet aftermath."],
+                    ["The forge that shapes the strongest steel,", "Cannot match the way I feel.", "When your love hammers my heart,", "Creating love's finest art."],
+                    ["The lighthouse beacon shines so bright,", "Cutting through the darkest night.", "Your love's fire shows me home,", "No matter how far I roam."],
+                    ["The volcano's molten, flowing stream,", "Burns less hot than passion's dream.", "When you hold me close and tight,", "Everything's gonna be alright."],
+                    ["The dragon's breath of legend told,", "Cannot match our love so bold.", "Fierce and powerful and strong,", "We've been burning all along."],
+                    ["The comet's tail streaks cross the sky,", "Like the fire in my eyes,", "When I see you walking near,", "My heart combusts, my dear."],
+                    ["The bonfire on the summer beach,", "Brings everyone within its reach.", "But the fire of our love,", "Blessed by God above."],
+                    ["The pilot light that always burns,", "For you my heart forever yearns.", "Ready to ignite the flame,", "Every time you speak my name."],
+                    ["The incense rising to the sky,", "Carries prayers for you and I.", "Sacred smoke of love so true,", "Everything I do for you."],
+                    ["The matchstick strikes and lights the dark,", "Like love's first tiny, precious spark.", "From such small beginnings grow,", "The greatest fires that we know."],
+                    ["The fireworks burst in colors bright,", "Celebrate our love each night.", "Red and gold and silver white,", "Painting love across the night."],
+                    ["The lava lamp's slow, dancing glow,", "Reminds me how our love does flow.", "Hypnotic, warm, and ever-moving,", "Constantly our bond improving."],
+                    ["The salamander in the flame,", "Knows that fire is just a game.", "But the fire of our love,", "Serious as stars above."],
+                    ["The eternal flame that never dies,", "Lives forever in your eyes.", "Monument to love so true,", "I built this flame for you."],
+                    ["The sun itself burns bright and hot,", "But compared to love, it's not,", "Even close to how I feel,", "This passion burning ever-real."],
+                    ["When the last fire fades away,", "And night gives in to day,", "The fire of our love will burn,", "And to your arms I'll return."],
+                    ["So let this fire burn so bright,", "Through the day and through the night.", "In passion's flame we'll always be,", "Burning for eternity."]
+                ]
+            },
+            {
+                title: "Time's Sweet Embrace",
+                preview: "Time stands still when you are near...",
+                meta: "A contemplation of how love transcends the passage of time",
+                stanzas: [
+                    ["Time stands still when you are near,", "Minutes feel like years so dear.", "In your presence I have found,", "Where eternity can be found."],
+                    ["The clock upon the wall stops ticking,", "When your love sets my heart kicking.", "Hours pass like moments brief,", "You are my heart's relief."],
+                    ["In the morning when you wake,", "Time itself begins to break,", "Into fragments, golden-sweet,", "Making every moment complete."],
+                    ["The sundial casts its shadow long,", "But cannot measure love's sweet song.", "For time with you moves different pace,", "Slower in love's embrace."],
+                    ["Seasons change from spring to fall,", "But our love outlasts them all.", "While years are passing by,", "Our love will never die."],
+                    ["The hourglass sands may run on through,", "But time stops when I look at you.", "Gravity has no effect,", "On love that's so perfect."],
+                    ["The calendar marks the days,", "But cannot count the loving ways,", "You show me every morning bright,", "That love makes everything right."],
+                    ["The watch upon my wrist may show,", "The time that mortals need to know,", "But lover's time moves by heart beats,", "Where every moment love completes."],
+                    ["Yesterday becomes today,", "When you smile in your special way.", "Tomorrow seems so far away,", "When in your arms I want to stay."],
+                    ["The grandfather clock chimes the hour,", "But cannot match your loving power,", "To make each second feel like heaven,", "From dawn to night to dawn again."],
+                    ["In the space between the seconds,", "Where true love always beckons,", "We find a place outside of time,", "Where everything is sublime."],
+                    ["The stopwatch racing 'round the track,", "Cannot bring those moments back,", "But in my heart they live forever,", "Bound together, now and ever."],
+                    ["Time zones stretch across the earth,", "But cannot measure our love's worth.", "No matter where on earth you are,", "You're never really very far."],
+                    ["The lunar month, the solar year,", "Mean nothing when you are here.", "For love creates its own calendar,", "Of moments sweet and singular."],
+                    ["The atomic clock so precise,", "Cannot capture love's sweet spice.", "The nanoseconds ticking by,", "Can't measure love that reaches high."],
+                    ["When we're old and gray of hair,", "Time will show how much we care.", "The years will prove what hearts have known,", "That love has made us one."],
+                    ["The pendulum swings back and forth,", "Measuring love's increasing worth.", "Each swing brings us closer still,", "To love's eternal, perfect thrill."],
+                    ["The cuckoo clock announces time,", "But cannot make our love more rhyme.", "Perfectly in sync we are,", "Like wishes on a falling star."],
+                    ["The digital display shows numbers bright,", "But cannot show love's inner light.", "LED cannot compete,", "With love that makes life so complete."],
+                    ["The time traveler dreams of days,", "To change the past in countless ways.", "But I would never change a thing,", "About the love that you did bring."],
+                    ["The eternal now where lovers dwell,", "Has stories that no clock can tell.", "In this moment, pure and true,", "I am completely lost in you."],
+                    ["When time itself comes to an end,", "And clocks no longer tick, my friend,", "Our love will still be beating strong,", "A timeless, endless song."],
+                    ["So hold me close and hold me tight,", "From morning sun to starlit night.", "In time's sweet, loving embrace,", "I've found my home, my resting place."],
+                    ["Time may be the river flowing,", "But our love keeps ever growing.", "Beyond the bounds of mortal time,", "Forever yours, forever mine."]
+                ]
+            },
+            {
+                title: "Wings of Forever",
+                preview: "On wings of love we soar so high...",
+                meta: "A soaring poem about love that lifts us above earthly concerns",
+                stanzas: [
+                    ["On wings of love we soar so high,", "Above the clouds, beyond the sky.", "In your embrace I've learned to fly,", "With you, I'll never say goodbye."],
+                    ["The eagle rides the thermal's lift,", "But cannot match love's precious gift.", "Of raising hearts to heights unknown,", "Where love seeds are gently sown."],
+                    ["The butterfly emerges new,", "Like my heart when I found you.", "From caterpillar earthbound state,", "To wings that carry love's sweet fate."],
+                    ["The angel's wings of purest white,", "Carry prayers into the night.", "But your love lifts me higher still,", "Beyond both valley and hill."],
+                    ["The hummingbird's wings beat so fast,", "Like my heart when you walk past.", "Hovering in love's sweet nectar,", "You are my heart's protector."],
+                    ["The swan glides graceful on the lake,", "Every movement that you make,", "Reminds me of such elegance,", "In love's eternal dance."],
+                    ["The robin's song announces spring,", "Like the joy that you do bring.", "When winter's cold has held too long,", "Your love becomes my song."],
+                    ["The owl flies silent through the night,", "Wise enough to know what's right.", "In darkness when the world can't see,", "Your love illuminates me."],
+                    ["The peacock spreads his feathers wide,", "But cannot match the pride I hide,", "When walking by your loving side,", "With you, I need not hide."],
+                    ["The dove returns with olive branch,", "Like peace after love's avalanche.", "Promising that storms will pass,", "And love will hold us fast."],
+                    ["The cardinal's bright red so true,", "Reminds me of my love for you.", "Standing out against the snow,", "Our love continues to grow."],
+                    ["The falcon dives with speed and grace,", "Like how fast my heart's sweet race,", "Whenever you come into sight,", "Making everything just right."],
+                    ["The albatross can soar for hours,", "Through both sunshine and rain showers.", "Like our love that knows no end,", "On your wings I can depend."],
+                    ["The phoenix rises from the fire,", "Like love lifting ever higher.", "From ashes of what used to be,", "Your love has set me free."],
+                    ["The lark sings greeting to the dawn,", "Like my heart when night is gone,", "And I wake up by your side,", "Love's wings spread open wide."],
+                    ["The hawk circles high above,", "Watching over those we love.", "Your protection keeps me safe,", "In love's warm, sweet chafe."],
+                    ["The goose flies south when winter comes,", "Following nature's ancient drums.", "But I will never fly away,", "With you I'll always stay."],
+                    ["The raven's wing is black as night,", "But brings no fear or fright.", "For even darkness cannot hide,", "The light of love inside."],
+                    ["The blue jay's song so clear and bright,", "Fills the morning with delight.", "Like your voice calling my name,", "Setting my heart aflame."],
+                    ["The woodpecker taps out his song,", "Steady rhythm all day long.", "Like the beating of my heart,", "We'll never be apart."],
+                    ["The sparrow small but brave and true,", "Reminds me how I feel for you.", "Size matters not when love is real,", "It's all about what hearts feel."],
+                    ["The crane stands patient by the stream,", "Like love waiting for a dream.", "In stillness finding perfect peace,", "Where all troubles cease."],
+                    ["The wings that carry us above,", "Are fashioned from the purest love.", "No feather lost, no flight too far,", "Together we can reach each star."],
+                    ["So spread your wings and fly with me,", "Across love's vast and endless sea.", "On wings of love, forever free,", "Together for eternity."]
+                ]
+            }
+        ];
+
+        // Application state
+        let currentView = 'home';
+        let currentPoem = null;
+
+        // DOM elements
+        const homeView = document.getElementById('home-view');
+        const poemView = document.getElementById('poem-view');
+        const poemSelector = document.getElementById('poem-selector');
+        const poemTitle = document.getElementById('poem-title');
+        const poemMeta = document.getElementById('poem-meta');
+        const poemText = document.getElementById('poem-text');
+        const poemCounter = document.getElementById('poem-counter');
+        const backBtn = document.getElementById('back-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+
+        // Initialize the application
+        function init() {
+            renderPoemSelector();
+            setupEventListeners();
+            observeScrollElements();
+        }
+
+        // Render poem selection cards
+        function renderPoemSelector() {
+            poemSelector.innerHTML = '';
+            
+            poems.forEach((poem, index) => {
+                const card = document.createElement('div');
+                card.className = 'poem-card fade-in';
+                card.innerHTML = `
+                    <h3 class="poem-title">${poem.title}</h3>
+                    <p class="poem-preview">${poem.preview}</p>
+                `;
+                
+                card.addEventListener('click', () => selectPoem(index));
+                poemSelector.appendChild(card);
+                
+                // Stagger the animation
+                setTimeout(() => {
+                    card.classList.add('visible');
+                }, index * 100);
+            });
+        }
+
+        // Select and display a poem
+        function selectPoem(index) {
+            currentPoem = index;
+            const poem = poems[index];
+            
+            // Update poem content
+            poemTitle.textContent = poem.title;
+            poemMeta.textContent = poem.meta;
+            poemCounter.textContent = `Poem ${index + 1} of ${poems.length}`;
+            
+            // Render stanzas
+            poemText.innerHTML = '';
+            poem.stanzas.forEach((stanza, stanzaIndex) => {
+                const stanzaElement = document.createElement('div');
+                stanzaElement.className = 'stanza';
+                
+                stanza.forEach(line => {
+                    const lineElement = document.createElement('div');
+                    lineElement.className = 'stanza-line';
+                    lineElement.textContent = line;
+                    stanzaElement.appendChild(lineElement);
+                });
+                
+                poemText.appendChild(stanzaElement);
+            });
+            
+            // Update navigation buttons
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === poems.length - 1;
+            
+            // Switch views
+            switchView('poem');
+        }
+
+        // Switch between views
+        function switchView(view) {
+            currentView = view;
+            
+            if (view === 'home') {
+                homeView.style.display = 'block';
+                poemView.classList.remove('active');
+                setTimeout(() => {
+                    poemView.style.display = 'none';
+                }, 300);
+            } else {
+                poemView.style.display = 'block';
+                homeView.style.display = 'none';
+                setTimeout(() => {
+                    poemView.classList.add('active');
+                    // Scroll to top smoothly
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }, 50);
+            }
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            backBtn.addEventListener('click', () => switchView('home'));
+            
+            prevBtn.addEventListener('click', () => {
+                if (currentPoem > 0) {
+                    selectPoem(currentPoem - 1);
+                }
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                if (currentPoem < poems.length - 1) {
+                    selectPoem(currentPoem + 1);
+                }
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (currentView === 'poem') {
+                    switch(e.key) {
+                        case 'Escape':
+                            switchView('home');
+                            break;
+                        case 'ArrowLeft':
+                            if (!prevBtn.disabled) {
+                                selectPoem(currentPoem - 1);
+                            }
+                            break;
+                        case 'ArrowRight':
+                            if (!nextBtn.disabled) {
+                                selectPoem(currentPoem + 1);
+                            }
+                            break;
+                    }
+                }
+            });
+
+            // Handle scroll for parallax effect
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                const parallax = document.body;
+                const speed = 0.5;
+                
+                parallax.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        }
+
+        // Observe elements for scroll animations
+        function observeScrollElements() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            // Observe all fade-in elements
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Add touch gesture support for mobile
+        function addTouchSupport() {
+            let startX = null;
+            let startY = null;
+
+            document.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+            });
+
+            document.addEventListener('touchend', (e) => {
+                if (!startX || !startY) return;
+
+                const endX = e.changedTouches[0].clientX;
+                const endY = e.changedTouches[0].clientY;
+                const diffX = startX - endX;
+                const diffY = startY - endY;
+
+                // Only handle horizontal swipes when viewing a poem
+                if (currentView === 'poem' && Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                    if (diffX > 0 && !nextBtn.disabled) {
+                        // Swipe left - next poem
+                        selectPoem(currentPoem + 1);
+                    } else if (diffX < 0 && !prevBtn.disabled) {
+                        // Swipe right - previous poem
+                        selectPoem(currentPoem - 1);
+                    }
+                }
+
+                startX = null;
+                startY = null;
+            });
+        }
+
+        // Performance optimization: Lazy load stanza animations
+        function optimizeAnimations() {
+            const stanzaObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const stanza = entry.target;
+                        const lines = stanza.querySelectorAll('.stanza-line');
+                        
+                        lines.forEach((line, index) => {
+                            setTimeout(() => {
+                                line.style.opacity = '1';
+                                line.style.transform = 'translateX(0)';
+                            }, index * 100);
+                        });
+                        
+                        stanzaObserver.unobserve(stanza);
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            // This will be called when poem content is loaded
+            window.observeStanzas = () => {
+                document.querySelectorAll('.stanza').forEach(stanza => {
+                    stanzaObserver.observe(stanza);
+                });
+            };
+        }
+
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            init();
+            addTouchSupport();
+            optimizeAnimations();
+            
+            // Add a subtle loading effect
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.5s ease';
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+        // Add smooth scrolling behavior for better UX
+        function smoothScrollTo(element) {
+            element.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Handle resize events for responsive adjustments
+        window.addEventListener('resize', () => {
+            // Recalculate layouts if needed
+            if (currentView === 'poem') {
+                setTimeout(() => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }, 100);
+            }
+        });
+
+    </script>
+</body>
+</html>
